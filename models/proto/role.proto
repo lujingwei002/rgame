@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package role;
+
+message Role {
+    string aaaaaaaaaaaaa = 1;
+    uint32 level = 2;
+    uint64 exp = 3;
+    uint64 gold = 4;
+    uint64 diamond = 5;
+}

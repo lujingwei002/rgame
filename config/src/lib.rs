@@ -1,6 +1,6 @@
 mod configs;
 
-use std::env;
+use std::{env, fs};
 use std::env::VarError;
 use std::error::Error;
 use lazy_static::lazy_static;
@@ -11,7 +11,8 @@ use std::path::{Path, PathBuf};
 use serde_derive::Deserialize;
 use std::collections::HashMap;
 use std::fmt::format;
-
+use mysql::*;
+use mysql::prelude::*;
 ///
 /// # 环境变量配置
 /// |变量名|说明|
@@ -76,13 +77,32 @@ pub struct EnvConf {
 
 impl EnvConf {
     fn init()-> Self {
-        println!("current dir: {:?}", env::current_dir().unwrap().deref());
         let mut c = EnvConf::default();
+        // 读取CONFIG环境变量
         match env::var(EnvName::CONFIG.as_str()) {
-            Ok(s) => { c.config = s }
-            _=>{}
+            Ok(s) => {
+                // TODO 判断绝对路径和相对路径
+                let path = Path::new(&s);
+                File::open(path).expect(format!("Unable to open config file: {:?}", path).as_str());
+                c.config = s
+            }
+            _=>{
+                // 向上查找
+                let mut current_dir = env::current_dir();
+                let mut current_dir = current_dir.as_ref().unwrap().as_path();
+                let mut p = current_dir.join(c.config.as_str());
+                while !fs::exists(p.as_path()).unwrap() {
+                    current_dir = current_dir.parent().expect(format!("Unable to search config file: {}", c.config.as_str()).as_str());
+                    p = current_dir.join(c.config.as_str());
+                }
+                c.config = p.to_str().unwrap().to_string();
+                env::set_current_dir(current_dir).expect(format!("Unable to change config file location: {}", c.config.as_str()).as_str());
+            }
         }
+        println!("current dir: {:?}", env::current_dir().unwrap().deref());
+        println!("config file: {:?}", c.config.as_str());
         c
+
     }
 }
 
@@ -103,7 +123,7 @@ pub struct ServerConfig {
     pub config: PathBuf,
     pub host: String,
     pub bind: String,
-    pub game_db: DbConfig
+    pub gamedb: DbConfig
 }
 
 pub fn get_server_config() -> &'static ServerConfig {
@@ -113,6 +133,16 @@ pub fn get_server_config() -> &'static ServerConfig {
 #[derive(Default, Debug, Deserialize)]
 pub struct DbConfig {
     pub host: String,
+    pub user: String,
+    pub password: String,
+    pub port: u16,
+    pub name: String
+}
+
+impl DbConfig {
+    pub fn to_url(&self)->String {
+        format!("mysql://{}:{}@{}:{}/{}", self.user, self.password, self.host, self.port, self.name)
+    }
 }
 
 impl ServerConfig {

@@ -1,18 +1,22 @@
 use serde_derive::{Deserialize, Serialize};
+use mysql_common::prelude::FromValue;
 
-#[derive(Debug, Clone,Default, Serialize, Deserialize)]
+
+#[derive(Debug, PartialEq, Eq, Clone,Default, Serialize, Deserialize,FromValue)]
+#[mysql(rename_all = "snake_case", crate_name = "mysql_common")]
+#[repr(u8)]
 pub enum PlatformType {
     #[default]
-    test,
-    quick,
+    Test = 1,
+    Quick,
 }
 
 impl TryFrom<&str> for PlatformType {
     type Error = &'static str;
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         match value {
-            "test" => Ok(PlatformType::test),
-            "quick" => Ok(PlatformType::quick),
+            "test" => Ok(PlatformType::Test),
+            "quick" => Ok(PlatformType::Quick),
             _ => Err("Unknown platform type"),
         }
     }

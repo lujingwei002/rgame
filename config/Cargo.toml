@@ -9,3 +9,5 @@ serde = "1.0.217"
 serde_derive = "1.0.217"
 toml = "0.8.20"
 serde_json={version="1.0.138"}
+mysql={version = "26.0.0"}
+mysql_common={version = "0.34.1", features = ["derive"]}

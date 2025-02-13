@@ -1,0 +1,8 @@
+[package]
+name = "sql"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+mysql={version = "26.0.0"}
+config={path="../config"}
