@@ -1,0 +1,10 @@
+[package]
+name = "gameserver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gamelib={path="../gamelib"}
+lazy_static={version = "1.5.0"}
+tokio={version = "1.43.0", features = ["full"] }
+hall_service={path="../services/hall_service"}

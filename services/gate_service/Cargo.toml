@@ -1,0 +1,13 @@
+[package]
+name = "gate_service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lazy_static={version = "1.5.0"}
+tokio={version = "1.43.0", features = ["full"] }
+config = {path="../../config"}
+hyper={version = "1.6.0", features = ["full"]}
+hyper-util={version = "0.1.10", features = ["full"]}
+bytes = "1.10.0"
+http-body-util={version = "0.1.2"}
