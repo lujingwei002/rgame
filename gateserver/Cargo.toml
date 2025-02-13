@@ -1,0 +1,8 @@
+[package]
+name = "gateserver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gate_service={path="../services/gate_service"}
+tokio={version = "1.43.0", features = ["full"] }

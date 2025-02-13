@@ -2,11 +2,17 @@
 <module type="EMPTY_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/config/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gamelib/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gameserver/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/prebuild/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/hall/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/hall_service/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/accountserver/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gateserver/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/account_service/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/gate_service/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

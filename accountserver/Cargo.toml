@@ -1,0 +1,9 @@
+[package]
+name = "accountserver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+config = {path="../config"}
+account_service={path="../services/account_service"}
+tokio={version = "1.43.0", features = ["full"] }
