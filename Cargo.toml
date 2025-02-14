@@ -3,5 +3,5 @@ resolver = "2"
 members = [
     "gameserver",
     "gamelib",
-    "services/hall_service", "prebuild", "config", "gateserver", "accountserver", "sql", "models",
+    "services/hall_service", "prebuild", "configs", "gateserver", "accountserver", "models", "consts", "macros",
 ]

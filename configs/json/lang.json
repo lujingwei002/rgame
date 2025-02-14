@@ -1,0 +1,17 @@
+[
+    {
+        "ident": "MISSING_OPEN_ID_FIELD",
+        "zh_CN": "缺少open_id字段",
+        "en_US": ""
+    },
+    {
+        "ident": "MISSING_PLATFORM_FIELD",
+        "zh_CN": "缺少platform字段",
+        "en_US": ""
+    },
+    {
+        "ident": "MISSING_CHANNEL_FIELD",
+        "zh_CN": "缺少channel字段",
+        "en_US": ""
+    }
+]

@@ -15,6 +15,9 @@
       <sourceFolder url="file://$MODULE_DIR$/services/gate_service/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/models/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sql/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/configs/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/consts/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/macros/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

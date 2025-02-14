@@ -1,0 +1,10 @@
+[package]
+name = "consts"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0.217"
+serde_derive = "1.0.217"
+mysql={version = "26.0.0"}
+mysql_common={version = "0.34.1", features = ["derive"]}

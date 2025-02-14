@@ -1,7 +1,7 @@
 mod configs;
+mod lang;
 
 use std::{env, fs};
-use std::env::VarError;
 use std::error::Error;
 use lazy_static::lazy_static;
 use std::fs::{File};
@@ -10,9 +10,6 @@ use std::ops::Deref;
 use std::path::{Path, PathBuf};
 use serde_derive::Deserialize;
 use std::collections::HashMap;
-use std::fmt::format;
-use mysql::*;
-use mysql::prelude::*;
 ///
 /// # 环境变量配置
 /// |变量名|说明|
@@ -88,7 +85,7 @@ impl EnvConf {
             }
             _=>{
                 // 向上查找
-                let mut current_dir = env::current_dir();
+                let current_dir = env::current_dir();
                 let mut current_dir = current_dir.as_ref().unwrap().as_path();
                 let mut p = current_dir.join(c.config.as_str());
                 while !fs::exists(p.as_path()).unwrap() {
@@ -97,6 +94,14 @@ impl EnvConf {
                 }
                 c.config = p.to_str().unwrap().to_string();
                 env::set_current_dir(current_dir).expect(format!("Unable to change config file location: {}", c.config.as_str()).as_str());
+            }
+        }
+
+        match env::var(EnvName::BIND.as_str()) {
+            Ok(s) => {
+                c.bind = s
+            }
+            _=>{
             }
         }
         println!("current dir: {:?}", env::current_dir().unwrap().deref());
@@ -123,7 +128,8 @@ pub struct ServerConfig {
     pub config: PathBuf,
     pub host: String,
     pub bind: String,
-    pub gamedb: DbConfig
+    pub gamedb: DbConfig,
+    pub cache: RedisConfig,
 }
 
 pub fn get_server_config() -> &'static ServerConfig {
@@ -134,6 +140,14 @@ pub fn get_server_config() -> &'static ServerConfig {
 pub struct DbConfig {
     pub host: String,
     pub user: String,
+    pub password: String,
+    pub port: u16,
+    pub name: String
+}
+
+#[derive(Default, Debug, Deserialize)]
+pub struct RedisConfig {
+    pub host: String,
     pub password: String,
     pub port: u16,
     pub name: String
@@ -162,9 +176,7 @@ impl ServerConfig {
 #[macro_export]
 macro_rules! config_impl {
      ($($SelfT:ident, $Path:literal, $CollectionT:ident, $KeyT:ty, $Key:ident),*) => {
-         pub fn load<P: AsRef<Path>>(dir: P) {
 
-         }
 
          pub fn preload() {
          $(
@@ -175,7 +187,7 @@ macro_rules! config_impl {
          $(
             impl $SelfT {
                 fn load() -> HashMap<$KeyT, $SelfT> {
-                    let path: PathBuf = Config.config.join($Path);
+                    let path: PathBuf = Config.deref().config.join($Path);
                     let mut file = File::open(path.as_path()).expect(format!("Error opening config file: {:?}", path.as_path()).as_str());
                     let mut content = String::new();
                     file.read_to_string(&mut content).expect(format!("Error reading file: {:?}", path.as_path()).as_str());
@@ -204,7 +216,12 @@ macro_rules! config_impl {
 }
 
 pub use configs::*;
+pub use lang::{Language, LanguageType, Lang};
 
+
+lazy_static!(
+    pub static ref LANG: Lang = Lang::load(Config.deref().config.as_path());
+);
 config_impl!(
     ChannelConf, "channel.json", _ChannelConf, i64, id
 );

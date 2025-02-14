@@ -4,10 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+lazy_static={version = "1.5.0"}
 mysql={version = "26.0.0"}
-config={path="../config"}
+configs={path="../configs"}
 prost = { version = "0.13.5" }
 tonic = { version = "0.12.3" }
-
+consts={path = "../consts"}
+macros={path="../macros"}
+mysql_common={version = "0.34.1", features = ["derive", "time", "chrono"]}
+chrono={version = "0.4.39"}
 [build-dependencies]
 tonic-build = { version = "0.12.3" }

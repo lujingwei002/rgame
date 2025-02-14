@@ -4,9 +4,9 @@ use tokio::io::BufReader;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    config::preload();
-    println!("aa {:?}", config::ChannelConf::get());
-    account_service::main().await;
+    configs::preload();
+    println!("aa {:?}", configs::ChannelConf::get());
+    account_service::main().await?;
 
 
     let stdin = io::stdin();

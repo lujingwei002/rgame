@@ -33,7 +33,7 @@ async fn hello(req: Request<impl hyper::body::Body>) -> Result<Response<Full<Byt
 }
 
 pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr: SocketAddr = config::get_server_config().bind.parse().unwrap();
+    let addr: SocketAddr = configs::get_server_config().bind.parse().unwrap();
     let listener = TcpListener::bind(addr).await?;
     println!("Listening on http://{}", addr);
     loop {
